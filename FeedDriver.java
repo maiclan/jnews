@@ -6,14 +6,18 @@ import java.net.HttpURLConnection;
 public final class FeedDriver implements ResponseCodes {
 	
 	private static final FeedDriver ref = new FeedDriver();
-	public static String Destination, Method;	
+	private static String iDestination, iMethod; // ----------- just informational variables
 	
 	private static void setInnerData(String d, String m){
-		Destination = d;
-		Method = m;
+		iDestination = d;
+		iMethod = m;
 	}
 	
-	public int getResponseCode(String destination, String method) throws IOException {
+	public static String getInfo(){
+		return iDestination + " by " + iMethod;
+	}
+	
+	public static int getResponseCode(String destination, String method) throws IOException {
 		setInnerData(destination,method);
 		URL url = new URL(destination);
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -22,13 +26,13 @@ public final class FeedDriver implements ResponseCodes {
 		return connection.getResponseCode();
 	}
 	
-	public String getResponse(int k){
+	public static String getResponse(int k){
 		if(states.containsKey(k))
 			return states.get(k);
 		return "Wrong key!";
 	}
 	
-	public boolean hasResponseTable(){
+	public static boolean hasResponseTable(){
 		return canUseIt;
 	}
 	

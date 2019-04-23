@@ -1,0 +1,114 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0303 
+header_name {.h} 
+code_name {.cxx}
+class JNews {
+  comment {public static void main(String[] args)} open
+} {} 
+
+class FeedDriver {open
+} {} 
+
+class DATA {open
+} {} 
+
+class GraphicUserInterface {open
+} {
+  widget_class UserInterface {
+    label JNews
+    xywh {829 235 360 460} type Double color 39 labelcolor 47 visible
+  } {
+    Fl_Input {} {
+      tooltip {Type text here...} xywh {10 30 245 25} box BORDER_BOX color 39 selection_color 91 labeltype NO_LABEL labelcolor 47 textcolor 47
+    }
+    Fl_Button {} {
+      label Search
+      xywh {265 30 80 25} box FLAT_BOX color 37 labelcolor 47
+    }
+    Fl_Progress {} {
+      xywh {-5 -5 365 10} box FLAT_BOX color 39 selection_color 37
+    }
+    Fl_Menu_Bar {} {
+      label Menu open
+      xywh {0 5 355 20} box FLAT_BOX down_box FLAT_BOX color 39 selection_color 90 textcolor 47
+    } {
+      Submenu {} {
+        label News open
+        xywh {0 0 100 20}
+      } {
+        MenuItem {} {
+          label {Manage news}
+          xywh {0 0 100 20}
+        }
+        MenuItem {} {
+          label {Manage tags}
+          xywh {0 0 100 20}
+        }
+      }
+      Submenu {} {
+        label About open
+        xywh {0 0 100 20}
+      } {
+        MenuItem {} {
+          label Programm
+          xywh {0 0 100 20}
+        }
+        MenuItem {} {
+          label Author
+          xywh {0 0 100 20}
+        }
+      }
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {10 65 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {129 65 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {245 65 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {10 175 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {130 175 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {245 175 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {10 285 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {130 285 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {245 285 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {10 395 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {130 395 100 100} box BORDER_BOX color 39
+    }
+    Fl_Box {} {
+      label {News Box}
+      xywh {245 395 100 100} box BORDER_BOX color 39
+    }
+    Fl_Progress {} {
+      xywh {353 70 15 265} box FLAT_BOX color 39 selection_color 37 labeltype NO_LABEL align 21
+    }
+  }
+} 

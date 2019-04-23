@@ -9,7 +9,7 @@ public class JNews {
 
 		try {
 			Response = Feeds.getResponseCode("http://www.google.com","GET");
-			System.out.println("Trying connect to " + Feeds.Destination + " by " + Feeds.Method + " method...");
+			System.out.println("Trying connect to " + Feeds.getInfo() + " method...");
 			strResponse = Feeds.getResponse(Response);
 			System.out.println("Response from URL: " + Response + " - " + strResponse);
         } catch (Throwable t) {
