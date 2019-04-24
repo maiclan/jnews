@@ -41,6 +41,6 @@ public final class FeedDriver implements ResponseCodes {
 	}
 	
 	private FeedDriver(){
-		
+		System.out.println("FeedDriver construct.");
 	}
 }
