@@ -3,14 +3,10 @@
 	* I want use filename like a SQL table_name and filecontent like a HashTable
 	* Because i think this project not need SQL data engine for normal working
 	* But i think use minimal RAM size for dynamic objects 
-	* if we need read 1 key-value then we read file until found key, then push value in new object
-	* if we need write new key-value then we read all file in Map structure, then replace key-value, then write all file back and delete Map structure
 	 
 	File DataBase structure:
 	* [table_name].[type]
-	* * [key][~][value]
-	* * [key][~][value`value`value...]
-	* * [key`key`key...][~][value`value`value...]
+	* * {Hashtable serialized String}
 	
 	Types of files:
 	* [table_name].oto - have one-to-one key-value architecture
@@ -28,52 +24,124 @@ public final class DataDriver {
 	private static final File ROOT = new File("Data");
 	private FileReader fr;
 	private FileWriter fw;
-	private static String TableName , AbsolutePath;
+	private static String TableName , AbsolutePath, FileContent;
 	
 	//public vars
-	public static Hashtable<String, String> Table = new Hashtable<String, String>(); 
+	 
 	
 	//private methods
+	private void p(String s){System.out.println(s);}
+	private void p(String[] s){System.out.println("String Array["+s.length+"]:");for(String S:s) System.out.println(S);}
+	private void p(Hashtable s){System.out.println(s);}
+	private void p(Object s){System.out.println(s);}
+	
 	private DataDriver(){
 		TableName = null;
+		FileContent = null;
 		System.out.println("DataDriver construct.");
 	}
 	
-	private void dbGetRecursiveTable(String s) {
-		int matchIs = -1;
-		String key = null, value = null;
-		s.trim();
-		if( s.indexOf('=') != -1 ) {
-			matchIs = s.indexOf('=');
-			key = s.substring(0,matchIs).trim();
-			s=s.substring(matchIs+1,s.length());	
+	private String readFileContent() throws Exception {
+		String s = "";
+		fr = new FileReader(AbsolutePath);
+		Scanner scan = new Scanner(fr);
+		
+		while(scan.hasNextLine()){
+			s += scan.nextLine();
 		}
-		if( s.indexOf(',') != -1 ){
-			matchIs = s.indexOf(',');
-			value = s.substring(0,matchIs).trim();
-			s=s.substring(matchIs+1,s.length());
-			Table.put(key,value);
-			dbGetRecursiveTable(s);
-		}else{
-			value = s;
-			s = null;
-			Table.put(key,value);
-		}
+		
+		fr.close();
+		return s;
+	}
+
+	private void writeFileContent(Hashtable tbl) throws Exception {
+		fw = new FileWriter(AbsolutePath);
+		String s = tbl.toString();
+		fw.write(s);
+		fw.flush();
+		fw.close(); 
 	}
 	
+	private String[] getSplittedArrayFromString(String str, String separator){
+		return str.split(separator);
+	}
+	
+	private String getNormalString(String str){
+		return str.substring(1,str.length()-1); // trimmed '{}' and '[]' symbols
+	}
+
+	private String[] getCorrectLines(String[] lines){
+		for(int i=0; i<lines.length; i++){
+			if(lines[i].indexOf(",") == 0){
+				lines[i] = lines[i].substring(1,lines[i].length()).trim();
+				
+			}
+			if(lines[i].indexOf("]") == -1){
+				lines[i]+="]";
+			}
+		}
+		return lines;
+	}
+	
+	private Hashtable getTable(String STR, String TYPE) {
+		String s = STR;
+		s = getNormalString(s);
+		Hashtable ht;
+		String[] lines;
+		
+		switch(TYPE){
+			case "oto":
+				
+				ht = new Hashtable<String, String>();
+				
+				lines = getSplittedArrayFromString(s,",");
+				
+				for(String S:lines){
+					String[] kv = getSplittedArrayFromString(S,"=");
+					ht.put( kv[0].trim() , kv[1].trim() );
+				}
+				
+				return ht;
+								
+			case "otm":
+			
+				ht = new Hashtable<String, ArrayList<String>>();
+
+				lines = getSplittedArrayFromString(s,"]");
+				lines = getCorrectLines(lines);
+				
+				for(String line:lines){
+					String key = getSplittedArrayFromString(line,"=")[0];
+					String value = getSplittedArrayFromString(line,"=")[1];
+					value = getNormalString(value);
+					String[] values = getSplittedArrayFromString(value,",");
+					
+					ArrayList<String> list = new ArrayList<String>();
+					for(String v:values){
+						list.add(v.trim());
+					}
+					
+					ht.put(key,list);
+				}
+					
+				return ht;
+				
+			case "mtm":
+				break;
+			}
+		return null;
+	}
+	
+
+
+
+
+
+
 	//public methods
 	public static DataDriver getRef(){
 		return ref;
 	}
-	
-/*	public void dbCreateTable() throws Exception {
-		if( TableName != null ){
-			File file = new File(ROOT , TableName);
-			file.createNewFile();
-		}else{
-			System.out.println("Wrong DataBase name -> " + TableName);
-		}
-	}*/	
 	
 	public void dbSetName(String filename) {
 		if(filename != null && 
@@ -88,29 +156,17 @@ public final class DataDriver {
 		}
 	}
 	
-	public void dbPull() throws Exception {
-		String s = "";
-		fr = new FileReader(AbsolutePath);
-		Scanner scan = new Scanner(fr);
-		while(scan.hasNextLine()){
-			s += scan.nextLine();
-		}
-		s = s.substring(1, s.length()-1);
-		dbGetRecursiveTable(s);
-		fr.close();
-	}
-	
-	public void dbPush() throws Exception {
-		fw = new FileWriter(AbsolutePath);
-		String s = Table.toString();
+	public Hashtable dbPull() throws Exception {
+		FileContent = readFileContent();
+		String DBTYPE = AbsolutePath.substring( AbsolutePath.length()-3 , AbsolutePath.length() );
 		
-		fw.write(s);
-		fw.flush();
-		fw.close(); 
+		return getTable(FileContent, DBTYPE);
 	}
 	
-	public void dbSetValue(String k, String v) {
-		Table.put(k,v);
+
+	public void dbPush(Hashtable tbl) throws Exception {
+		writeFileContent(tbl);
 	}
+	
 }
 
