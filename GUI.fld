@@ -1,22 +1,22 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0303 
-header_name {.h} 
+version 1.0304
+header_name {.h}
 code_name {.cxx}
 class JNews {
   comment {public static void main(String[] args)} open
-} {} 
+} {}
 
 class FeedDriver {open
-} {} 
+} {}
 
 class DATA {open
-} {} 
+} {}
 
 class GraphicUserInterface {open
 } {
   widget_class UserInterface {
     label JNews
-    xywh {829 235 360 460} type Double color 39 labelcolor 47 visible
+    xywh {374 222 360 460} type Double color 39 labelcolor 47 hide
   } {
     Fl_Input {} {
       tooltip {Type text here...} xywh {10 30 245 25} box BORDER_BOX color 39 selection_color 91 labeltype NO_LABEL labelcolor 47 textcolor 47
@@ -111,4 +111,40 @@ class GraphicUserInterface {open
       xywh {353 70 15 265} box FLAT_BOX color 39 selection_color 37 labeltype NO_LABEL align 21
     }
   }
-} 
+}
+
+class DesktopGUI {open
+} {
+  widget_class {Main window} {open
+    xywh {338 200 960 445} type Double visible
+  } {
+    Fl_Group Navigation {open
+      xywh {0 -5 960 450}
+    } {
+      Fl_Menu_Bar menu {open
+        xywh {0 0 960 25}
+      } {
+        MenuItem {Manage RSS} {
+          label {Manage RSS}
+          xywh {0 0 100 20}
+        }
+      }
+    }
+    Fl_Group {News Pane} {open
+      xywh {325 0 635 445}
+    } {}
+    Fl_Window {} {open
+      xywh {0 25 300 420} type Double color 30 visible
+    } {
+      Fl_Button {} {
+        xywh {25 25 245 43} box ROUNDED_BOX color 43
+      }
+      Fl_Button {} {
+        xywh {25 84 245 43} box ROUNDED_BOX color 43
+      }
+    }
+    Fl_Window {} {open
+      xywh {300 25 659 420} type Double color 42 visible
+    } {}
+  }
+}

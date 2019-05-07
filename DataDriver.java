@@ -20,11 +20,11 @@ import java.util.*;
 public final class DataDriver {
 	// private vars
 	private static final DataDriver ref = new DataDriver();
-	private static final String SLASH = "/";
-	private static final File ROOT = new File("Data");
+	private final String SLASH = "/";
+	private final File ROOT = new File("Data");
 	private FileReader fr;
 	private FileWriter fw;
-	private static String TableName , AbsolutePath, FileContent;
+	private String TableName , AbsolutePath, FileContent;
 	
 	//public vars
 	 
@@ -102,7 +102,7 @@ public final class DataDriver {
 				}
 				
 				return ht;
-								
+
 			case "otm":
 			
 				ht = new Hashtable<String, ArrayList<String>>();
