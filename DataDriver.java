@@ -11,7 +11,7 @@
 	Types of files:
 	* [table_name].oto - have one-to-one key-value architecture
 	* [table_name].otm - have one-to-many key-value architecture
-	* [table_name].mtm - have many-to-many key-value architecture
+	* [table_name].mtm - have many-to-many key-value architecture  //not sure
 	
 */
 import java.io.*;
@@ -19,7 +19,7 @@ import java.util.*;
 
 public final class DataDriver {
 	// private vars
-	private static final DataDriver ref = new DataDriver();
+	private static final DataDriver REF = new DataDriver();
 	private final String SLASH = "/";
 	private final File ROOT = new File("Data");
 	private FileReader fr;
@@ -140,7 +140,7 @@ public final class DataDriver {
 
 	//public methods
 	public static DataDriver getRef(){
-		return ref;
+		return REF;
 	}
 	
 	public void dbSetName(String filename) {

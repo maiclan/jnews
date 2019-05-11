@@ -5,7 +5,7 @@ import java.net.HttpURLConnection;
 
 public final class FeedDriver implements ResponseCodes {
 	
-	private static final FeedDriver ref = new FeedDriver();
+	private static final FeedDriver REF = new FeedDriver();
 	private static String iDestination, iMethod; // ----------- just informational variables
 	
 	private static void setInnerData(String d, String m){
@@ -37,7 +37,7 @@ public final class FeedDriver implements ResponseCodes {
 	}
 	
 	public static FeedDriver getRef(){
-		return ref;
+		return REF;
 	}
 	
 	private FeedDriver(){
